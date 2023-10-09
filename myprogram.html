@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Function Demo</title>
+    <script src="./myprogram.js"></script>
+    <style>
+        .mybutton {
+            margin-bottom: 20px; /* 增加按钮之间的垂直间隔 */
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mybutton" onclick="runFunction(1)">Run 1</button>
+    <br> <!-- 添加一个换行符作为间隔 -->
+    <button class="mybutton" onclick="runFunction(2)">Run 2</button>
+    <br> <!-- 添加一个换行符作为间隔 -->
+    <button class="mybutton" onclick="runFunction(3)">Run 3</button>
+    <br> <!-- 添加一个换行符作为间隔 -->
+    <button class="mybutton" onclick="runFunction(4)">Run 4</button>
+    <br> <!-- 添加一个换行符作为间隔 -->
+    <button class="mybutton" onclick="runFunction(5)">Run 5</button>
+    
+    <script>
+        var main = Module.cwrap('main', // 函数名
+            null, // 函数返回类型
+            null); // 函数参数类型列表 
+
+        function runFunction(number) {
+            switch (number) {
+                case 1:
+                    main();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        }
+    </script>
+</body>
+
+
+
+</html>
