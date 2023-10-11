@@ -7,12 +7,16 @@
 #include "core.h"
 #include "isa.h"
 #include "program.h"
+#include "ram.h"
 
 
 //some basic setting about instruction
-#define INSTRUCTION_HANDLER  1
+#define INSTRUCTION_HANDLER  3
+
 static handler_t handler_table[INSTRUCTION_HANDLER] = {
         &mov_handler,
+        &push_handler,
+        &pop_handler,
 };
 
 //implement single example
@@ -48,10 +52,30 @@ static void mov_handler(core_t *core, inst_t *inst){
         else if(inst->ori.type == MEM){
             *(uint64_t *)inst->dst.reg = (uint64_t)*(uint64_t *)inst->ori.Imm;
         }
-
     }
-
 }
+
+static void push_handler(core_t *core, inst_t *inst){
+    if(inst->op == PUSH){
+        if(inst->ori.type == REG){
+            uint64_t value = (uint64_t)*(uint64_t *)inst->ori.reg;
+            core->reg.rsp -= 8;
+            write_stack_64(core->reg.rsp, value);
+        }
+    }
+}
+
+static void pop_handler(core_t *core, inst_t *inst){
+    if(inst->op == POP){
+        if(inst->dst.type == REG){
+            uint64_t value = *(uint64_t *)core->reg.rsp;
+            *(uint64_t *)inst->dst.reg = value;
+            core->reg.rsp += 8;
+        }
+    }
+}
+
+
 
 void run_single(core_t *core, inst_t inst){
     handler_t handler = handler_table[inst.op];

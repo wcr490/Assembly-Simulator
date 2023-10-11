@@ -8,7 +8,9 @@
 #include "core.h"
 
 typedef enum OP{
-    MOV          //call mov_handler
+    MOV,          //call mov_handler
+    PUSH,         //call push_handler
+    POP,          //call pop_handler
 }op_t;
 
 typedef enum OD_TYPE{
@@ -20,7 +22,7 @@ typedef enum OD_TYPE{
 typedef struct OD{
     od_type type;
     uint64_t Imm;     //used in both imm and mem
-    uint64_t reg;
+    uint64_t reg;     //addr,not the real object
     uint64_t reg_second;
     uint64_t scale;
 }od_t;
@@ -32,6 +34,8 @@ typedef struct INSTRUCTION{
 }inst_t;
 
 static void mov_handler(core_t *core, inst_t *inst);
+static void push_handler(core_t *core, inst_t *inst);
+static void pop_handler(core_t *core, inst_t *inst);
 typedef void (*handler_t)(core_t *core, inst_t *inst);
 
 

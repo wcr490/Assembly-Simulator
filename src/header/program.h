@@ -14,6 +14,7 @@ extern int CURRENT_LOADING_FLAG;
 
 
 void rip_init(core_t *core);
+void buf_init();
 void load_inst_buf(core_t core, inst_t inst);
 void run_inst_buf(core_t *core);
 int show_buf_size();

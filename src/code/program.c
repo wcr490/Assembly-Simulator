@@ -17,6 +17,11 @@ void rip_init(core_t *core){
     core->reg.rip = (uint64_t)&inst_buf[0];
 }
 
+void buf_init(){
+    CURRENT_LOADING_FLAG = 0;
+}
+
+
 void load_inst_buf(core_t core, inst_t inst){
     if(CURRENT_LOADING_FLAG > INSTRUCTION_MAX_CYCLE){
         return;
