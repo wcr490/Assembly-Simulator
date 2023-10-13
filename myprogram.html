@@ -3,51 +3,157 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Function Demo</title>
     <script src="./myprogram.js"></script>
     <style>
-        .mybutton {
+        .button-container {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px; /* 增加按钮之间的垂直间隔 */
+        }
+
+        .mybutton {
+            width: 100px; /* 设置按钮的宽度，这里假设按钮宽度为 100px */
+        }
+
+        .myinput {
+            width: 80px; /* 设置输入框的宽度，这里假设输入框宽度为 80px */
+        }
+        .centered {
+            text-align: center;
+        }
+        .centered pre {
+            font-size: 30px; /* 你希望的字体大小 */
+        }
+        table {
+        width: 30%; /* 设置表格宽度为页面宽度的 80% */
+        border-collapse: collapse; /* 合并边框线 */
+        }
+        table, th, td {
+        border: 1px solid black; /* 添加边框 */
+        }
+        th, td {
+        padding: 10px; /* 增加单元格内边距 */
+        text-align: center; /* 居中文本 */
+        }
+        .div-right {
+            float: right;
+            width: 10%; /* 调整容器的宽度 */
+            padding: 10px; /* 设置内边距 */
+            box-sizing: border-box; /* 让内边距包含在宽度内 */
+            font-size: 4px;
+        }
+        .hidden {
+            display: none; /* 初始隐藏元素 */
         }
     </style>
 </head>
 
+
+
 <body>
-    <button class="mybutton" onclick="runFunction(1)">Run 1</button>
-    <br> <!-- 添加一个换行符作为间隔 -->
-    <button class="mybutton" onclick="runFunction(2)">Run 2</button>
-    <br> <!-- 添加一个换行符作为间隔 -->
-    <button class="mybutton" onclick="runFunction(3)">Run 3</button>
-    <br> <!-- 添加一个换行符作为间隔 -->
-    <button class="mybutton" onclick="runFunction(4)">Run 4</button>
-    <br> <!-- 添加一个换行符作为间隔 -->
-    <button class="mybutton" onclick="runFunction(5)">Run 5</button>
+    <div class="button-container">
+        <button class="mybutton" onclick="main(0,0,0)" style="width: 250px;">Init</button>
+    </div>
+    <div class="button-container">
+        <button class="mybutton" onclick="main(1,0,0)" style="width: 250px;">Print register</button>
+    </div>
+<p>Input an <span style="color: red;">decimal</span> immediate number / register<span style="color: red;">(without %)</span> / a <span style="color: red;">hexadecimal</span> memory address</p>
+    <div class="button-container">
+        <button class="mybutton" onclick="runmain(2,'input3', 'input4')">MOV</button>
+        <input type="text" class="myinput" id="input3" placeholder="">
+        <input type="text" class="myinput" id="input4" placeholder="">
+    </div>
     
+    <div class="button-container">
+        <button class="mybutton" onclick="runmain(3,'input5', 'input6')">PUSH</button>
+        <input type="text" class="myinput" id="input5" placeholder="">
+        <input type="text" class="myinput" id="input6" placeholder="">
+    </div>
+    
+    <div class="button-container">
+        <button class="mybutton" onclick="runmain(4,'input7', 'input8')">POP</button>
+        <input type="text" class="myinput" id="input7" placeholder="">
+        <input type="text" class="myinput" id="input8" placeholder="">
+    </div>
+
+
+
+
     <script>
-        var main = Module.cwrap('main', // 函数名
-            null, // 函数返回类型
-            null); // 函数参数类型列表 
+        var main = Module.cwrap('web_bridge', 
+        null, 
+        ['number','string','string']); 
 
-        function runFunction(number) {
-            switch (number) {
-                case 1:
-                    main();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-            }
-        }
-    </script>
+        function runmain(num,inputId1, inputId2) {
+        var inputValue1 = document.getElementById(inputId1).value;
+        var inputValue2 = document.getElementById(inputId2).value;
+        var id = num;
+        
+        main(id, inputValue1, inputValue2);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+    <div class="centered">
+        <pre style="color: red;">Some Brief Introduction&Guidance</pre>
+        <pre style="color: yellowgreen;font-size: 15px;">I am definitely a greenhand in frontend.Hopefully,you can read it completely.</pre>
+        <pre style="text-align: left;">This is an easy simulator which is struggling to fork the structure of X86.</pre>
+        <pre style="text-align: left;">The project has implement some basic settings so far.</pre>
+        <pre style="text-align: left;">But it still far from enough.</pre>
+        <pre style="text-align: left;text-decoration: underline;">Before starting , click <span style="color: red;">"CTRL","SHIFT" and "i"</span> to provoke the console</pre>
+    </div>
+    <div class="div-right">
+        <a href="https://github.com/wcr490/Assembly-Simulator"><img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4"width="40" height="40"></a>
+        <p><a href="https://space.bilibili.com/635869315?spm_id_from=333.1007.0.0"><img src="https://www.emojiall.com/sites/all/themes/emoji_2020/img/logo-bili.png"width="40" height="40"></a></p>
+    </div>
+    <table border="1">
+        <tr>
+            <th>Function/Settings</th>
+            <th>Completeness</th>
+        </tr>
+        <tr>
+            <td>Registers</td>
+            <td>✔️</td>
+        </tr>
+        <tr>
+            <td>Memory</td>
+            <td>✔️</td>
+        </tr>
+        <tr>
+            <td>Stack</td>
+            <td>✔️</td>
+        </tr>
+        <tr>
+            <td>MOV</td>
+            <td>✔️</td>
+        </tr>
+        <tr>
+            <td>PUSH</td>
+            <td>✔️</td>
+        </tr>
+        <tr>
+            <td>pop</td>
+            <td>✔️</td>
+        </tr>
+        <tr>
+            <td>Tremendous things</td>
+            <td>❌</td>
+        </tr>
+    </table>
+
+
 </body>
-
-
-
 </html>
