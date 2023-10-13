@@ -11,7 +11,7 @@
 //#include <emscripten.h>
 
 #define ADDR_BIAS 228
-
+#define REGISTER_QUANTITY  13
 
 
 typedef struct REG_STRUCT
@@ -47,9 +47,12 @@ typedef struct CPU{
 }cpu_t;
 
 
+
+
 cpu_t cpu_build();
 void cpu_init(cpu_t cpu);
 void core_debug(cpu_t cpu,core_t core);
+void core_debug_web(cpu_t cpu,core_t core);
 void rip_init(core_t *core);
 
 #endif

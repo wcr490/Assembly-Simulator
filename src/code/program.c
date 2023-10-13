@@ -37,7 +37,6 @@ void run_inst_buf(core_t *core){
     for(int i = 0; i < CURRENT_LOADING_FLAG; i ++){
         inst_t *current_inst = (inst_t *)(core->reg.rip);
         run_single(core, *current_inst);
-        core->reg.rip += sizeof(inst_t);
     }
 }
 

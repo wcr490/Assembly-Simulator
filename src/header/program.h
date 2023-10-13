@@ -5,7 +5,7 @@
 #ifndef SIMULATOR_PROGRAM_H
 #define SIMULATOR_PROGRAM_H
 
-#define INSTRUCTION_MAX_CYCLE 12
+#define INSTRUCTION_MAX_CYCLE 100
 
 #include "core.h"
 #include "isa.h"

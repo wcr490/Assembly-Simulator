@@ -18,8 +18,10 @@ cpu_t cpu_build(){
 
 void cpu_init(cpu_t cpu){
     core_t core = cpu.core;
-
 }
+
+
+
 
 
 void core_debug(cpu_t cpu,core_t core){
@@ -38,6 +40,23 @@ void core_debug(cpu_t cpu,core_t core){
     printf("%5p   %10llu  <rsp>\n",(&(core.reg.rsp)) + ADDR_BIAS,core.reg.rsp);
     printf("%5p   %10llu  <rip>\n",(&(core.reg.rip)),core.reg.rip);
     printf("%5p   %10llu  <rip + 8>\n",(&(core.reg.rip)+0x1) + ADDR_BIAS,*(uint64_t *)(core.reg.rip+0x1));
+    printf("--------------------------------end\n");
+}
+void core_debug_web(cpu_t cpu,core_t core){
+    printf("------------------------------start\n");
+    printf("<al>   %10llu\n",core.reg.al);
+    printf("<ah>   %10llu\n",core.reg.ah);
+    printf("<ax>   %10llu\n",core.reg.ax);
+    printf("<eax>  %10llu\n",core.reg.eax);
+    printf("<rax>  %10llu\n",core.reg.rax);
+    printf("<rbx>  %10llu\n",core.reg.rbx);
+    printf("<rcx>  %10llu\n",core.reg.rcx);
+    printf("<rdx>  %10llu\n",core.reg.rdx);
+    printf("<rsi>  %10llu\n",core.reg.rsi);
+    printf("<rdi>  %10llu\n",core.reg.rdi);
+    printf("<rbp>  %10llu\n",core.reg.rbp);
+    printf("<rsp>  %10llu\n",core.reg.rsp);
+    printf("<rip>  %10llu\n",core.reg.rip);
     printf("--------------------------------end\n");
 }
 

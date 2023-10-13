@@ -3,6 +3,7 @@
 //
 
 #include <stdint.h>
+#include <stdio.h>
 
 #include "core.h"
 #include "isa.h"
@@ -61,6 +62,7 @@ static void push_handler(core_t *core, inst_t *inst){
             uint64_t value = (uint64_t)*(uint64_t *)inst->ori.reg;
             core->reg.rsp -= 8;
             write_stack_64(core->reg.rsp, value);
+//            printf("%llu\n",*(uint64_t *)core->reg.rsp);
         }
     }
 }
@@ -71,6 +73,7 @@ static void pop_handler(core_t *core, inst_t *inst){
             uint64_t value = *(uint64_t *)core->reg.rsp;
             *(uint64_t *)inst->dst.reg = value;
             core->reg.rsp += 8;
+            printf("%llu",value);
         }
     }
 }
@@ -80,7 +83,10 @@ static void pop_handler(core_t *core, inst_t *inst){
 void run_single(core_t *core, inst_t inst){
     handler_t handler = handler_table[inst.op];
     handler(core, &inst);
+    core->reg.rip += sizeof(inst_t);
 }
+
+
 
 inst_t inst_build(op_t op, od_t ori, od_t dst){
     inst_t inst;
