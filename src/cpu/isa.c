@@ -12,12 +12,14 @@
 
 
 //some basic setting about instruction
-#define INSTRUCTION_HANDLER  3
+#define INSTRUCTION_HANDLER  5
 
 static handler_t handler_table[INSTRUCTION_HANDLER] = {
         &mov_handler,
         &push_handler,
         &pop_handler,
+        &add_handler,
+        &sub_handler,
 };
 
 //implement single example
@@ -78,6 +80,42 @@ static void pop_handler(core_t *core, inst_t *inst){
     }
 }
 
+static void add_handler(core_t *core, inst_t *inst){
+    //calculation
+    uint64_t value = *(uint64_t *)inst->dst.reg + *(uint64_t *)inst->ori.reg;
+
+    //check and set flags
+    core->flag.CF = 0;
+    core->flag.ZF = 0;
+    core->flag.SF = 0;
+    core->flag.OF = 0;
+    uint8_t ori_sign = (*(uint64_t *)inst->ori.reg >> 63) & 0x1;
+    uint8_t dst_sign = (*(uint64_t *)inst->dst.reg >> 63) & 0x1;
+    uint8_t value_sign = (value >> 63)&0x1;
+    core->flag.CF = (value < *(uint64_t *)inst->ori.reg);
+    core->flag.ZF = value == 0;
+    core->flag.SF = value_sign;
+    core->flag.OF = (ori_sign && dst_sign && !value_sign) || (!ori_sign && !dst_sign && value_sign);
+    *(uint64_t *)inst->dst.reg = value;
+}
+static void sub_handler(core_t *core, inst_t *inst){
+    //calculation
+    uint64_t value = *(uint64_t *)inst->dst.reg - *(uint64_t *)inst->ori.reg;
+
+    //check and set flags
+    core->flag.CF = 0;
+    core->flag.ZF = 0;
+    core->flag.SF = 0;
+    core->flag.OF = 0;
+    uint8_t ori_sign = (*(uint64_t *)inst->ori.reg >> 63) & 0x1;
+    uint8_t dst_sign = (*(uint64_t *)inst->dst.reg >> 63) & 0x1;
+    uint8_t value_sign = (value >> 63)&0x1;
+    core->flag.CF = (value > *(uint64_t *)inst->ori.reg);
+    core->flag.ZF = value == 0;
+    core->flag.SF = value_sign;
+    core->flag.OF = (ori_sign && !dst_sign && value_sign) || (!ori_sign && dst_sign && !value_sign);
+    *(uint64_t *)inst->dst.reg = value;
+}
 
 
 void run_single(core_t *core, inst_t inst){

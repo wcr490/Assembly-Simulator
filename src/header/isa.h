@@ -11,6 +11,8 @@ typedef enum OP{
     MOV,          //call mov_handler
     PUSH,         //call push_handler
     POP,          //call pop_handler
+    ADD,          //call add_handler
+    SUB,          //call sub_handler
 }op_t;
 
 typedef enum OD_TYPE{
@@ -36,6 +38,8 @@ typedef struct INSTRUCTION{
 static void mov_handler(core_t *core, inst_t *inst);
 static void push_handler(core_t *core, inst_t *inst);
 static void pop_handler(core_t *core, inst_t *inst);
+static void add_handler(core_t *core, inst_t *inst);
+static void sub_handler(core_t *core, inst_t *inst);
 typedef void (*handler_t)(core_t *core, inst_t *inst);
 
 

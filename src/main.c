@@ -14,13 +14,15 @@
 #include "header/ram.h"
 
 #define DEBUG_MODE 1
-#define INPUT_MAX  10
+#define INPUT_MAX  20
 /*
  * Currently,the ram system is completely simulated by using the visual memory.So,it is a kinda insecure.
  * TODO:write some necessary tools to deal with the caller and callee in the memory system.
  * TODO:(later!)have a convincingly secure ram system by building a independent visual memory system by an basic array.
  * TODO:the implementation of POP is unrealistic.
  * Warning:check the instruction chunk firstly when you find it broke down because of it's intricate structure.
+ * TODO:improve the interface in html file to make the command more visual.
+ * TODO:refine more imperative instruction in the isa.
  */
 cpu_t active_cpu;
 
@@ -98,6 +100,15 @@ int EMSCRIPTEN_KEEPALIVE main(){
 //  rcx
         inst_t inst8 = inst_build(2, od_build(0, 0, 0, 0, 0), od_build(1, 0, (uint64_t)&active_cpu.core.reg.rcx, 0, 0));
 
+
+//ADD
+//  rbx -> rcx
+        inst_t inst10 = inst_build(3, od_build(1, 0, (uint64_t)&active_cpu.core.reg.rbx, 0, 0), od_build(1, 0, (uint64_t)&active_cpu.core.reg.rcx, 0, 0));
+
+//SUB
+//  rbx -> rax
+        inst_t inst11 = inst_build(4, od_build(1, 0, (uint64_t)&active_cpu.core.reg.rbx, 0, 0), od_build(1, 0, (uint64_t)&active_cpu.core.reg.rax, 0, 0));
+
         load_inst_buf(active_cpu.core, inst1);
         load_inst_buf(active_cpu.core, inst2);
         load_inst_buf(active_cpu.core, inst3);
@@ -107,15 +118,12 @@ int EMSCRIPTEN_KEEPALIVE main(){
         load_inst_buf(active_cpu.core, inst7);
         load_inst_buf(active_cpu.core, inst8);
         load_inst_buf(active_cpu.core, inst9);
-
+        load_inst_buf(active_cpu.core, inst10);
+        load_inst_buf(active_cpu.core, inst11);
         run_inst_buf((core_t*)&active_cpu.core);
-
-//    printf("%llu\n", (uint64_t)*(uint64_t *)(active_cpu.core.reg.rsp +8));
-//    printf("%llu\n", (uint64_t)*(uint64_t *)(active_cpu.core.reg.rsp));
-//    printf("%llu\n", (uint64_t)*(uint64_t *)(active_cpu.core.reg.rsp -8));
-
         printf("Implement %i instructions\n" , show_buf_size());
         core_debug(active_cpu, active_cpu.core);
+//        core_debug_web(active_cpu, active_cpu.core);
         size_t inst_size = sizeof(inst_t);
     }
 
@@ -241,3 +249,4 @@ void EMSCRIPTEN_KEEPALIVE web_bridge(int state, char arg1[INPUT_MAX], char arg2[
         instruction_listener(state, arg1, arg2);
     }
 }
+

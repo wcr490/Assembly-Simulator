@@ -10,9 +10,15 @@
 //#include "program.h"
 //#include <emscripten.h>
 
-#define ADDR_BIAS 228
-#define REGISTER_QUANTITY  13
+#define REGISTER_QUANTITY  20
 
+typedef struct FLAG_STRUCT{
+    uint16_t CF;  //carry
+    uint16_t ZF;  //zero
+    uint16_t SF;  //negative
+    uint16_t OF;  //overflow
+
+}flag_t;
 
 typedef struct REG_STRUCT
 {
@@ -40,6 +46,7 @@ typedef struct REG_STRUCT
 
 typedef struct CORE{
     reg_t reg;
+    flag_t flag;
 }core_t;
 
 typedef struct CPU{
@@ -50,7 +57,8 @@ typedef struct CPU{
 
 
 cpu_t cpu_build();
-void cpu_init(cpu_t cpu);
+void cpu_init(cpu_t *cpu);
+void flag_init(cpu_t *cpu);
 void core_debug(cpu_t cpu,core_t core);
 void core_debug_web(cpu_t cpu,core_t core);
 void rip_init(core_t *core);
