@@ -6,4 +6,3 @@
 <li>Check your browser to ensure whether it supports WASM which is the key point of your exploration in this project</li>
 </ol>
 
-## author：3066814296@qq.com
